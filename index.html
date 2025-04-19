@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>HOYO-AI</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     body {
       background-color: white;
@@ -20,6 +21,10 @@
       width: 100%;
       margin-top: 1em;
     }
+    .output {
+      margin-top: 1em;
+      white-space: pre-wrap;
+    }
     .chat-bubble {
       padding: 0.7em 1em;
       margin-bottom: 0.5em;
@@ -28,9 +33,18 @@
     }
     .user { background-color: #d0e7ff; align-self: flex-end; }
     .ai { background-color: #f0f0f0; align-self: flex-start; }
+
     .chat-container {
       display: flex;
       flex-direction: column;
+    }
+
+    .powered {
+      margin-top: 2em;
+      font-size: 0.8em;
+      text-align: center;
+      color: #888;
+      line-height: 1.4;
     }
 
     /* Dark mode */
@@ -51,16 +65,8 @@
       border: 1px solid #666;
       color: white;
     }
-    .timestamp {
-      font-size: 0.7em;
-      color: gray;
-      margin-top: 0.3em;
-    }
-    .footer {
-      text-align: center;
-      font-size: 0.8em;
-      color: gray;
-      margin-top: 2em;
+    .dark-mode .powered {
+      color: #aaa;
     }
   </style>
 </head>
@@ -72,6 +78,11 @@
   </div>
   <div class="chat-container" id="chatBox"></div>
   <input id="commandInput" placeholder="พิมพ์มาเลย HOYO-AI รอฟังอยู่" autofocus />
+
+  <div class="powered">
+    Powered by Google AI Studio<br>
+    Design by NongAtommiii
+  </div>
 
   <script>
     const input = document.getElementById('commandInput');
@@ -106,17 +117,7 @@
     function appendMessage(message, sender) {
       const bubble = document.createElement("div");
       bubble.className = `chat-bubble ${sender}`;
-
-      const time = new Date().toLocaleTimeString('th-TH', {
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-
-      bubble.innerHTML = `
-        <div>${message}</div>
-        <div class="timestamp">${time}</div>
-      `;
-
+      bubble.innerHTML = marked.parse(message);
       chatBox.appendChild(bubble);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
@@ -156,7 +157,5 @@
 
     loadChat();
   </script>
-
-  <p class="footer">Powered by Google AI Studio</p>
 </body>
 </html>
