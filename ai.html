@@ -6,9 +6,7 @@
   <title>Atommiii-AI</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -48,9 +46,7 @@
       transition: background-color 0.3s;
     }
 
-    button:hover {
-      background-color: #0056b3;
-    }
+    button:hover { background-color: #0056b3; }
 
     .chat-container {
       display: flex;
@@ -128,13 +124,8 @@
     }
 
     @media (max-width: 600px) {
-      h1 {
-        font-size: 1.5em;
-      }
-
-      button {
-        width: 100%;
-      }
+      h1 { font-size: 1.5em; }
+      button { width: 100%; }
     }
   </style>
 </head>
@@ -144,12 +135,11 @@
   <div class="button-bar">
     <button onclick="toggleTheme()">เปลี่ยนธีม🌗</button>
     <button onclick="clearChat()">ล้างแชท🗑️</button>
-    </a>
   </div>
 
   <div class="chat-container" id="chatBox"></div>
 
-  <input id="commandInput" placeholder="พิมพ์มาเลย HOYO-AI รอฟังอยู่..." autofocus />
+  <input id="commandInput" placeholder="พิมพ์มาเลย ATOMMIII-AI รอฟังอยู่..." autofocus />
 
   <div class="footer">
     Powered by Google AI Studio<br>
@@ -160,6 +150,11 @@
     const input = document.getElementById("commandInput");
     const chatBox = document.getElementById("chatBox");
     const apiKey = "AIzaSyAbRT_ckd-tVtBkji6EFULpdKKCBMnTBbo";
+
+    // ขออนุญาตแจ้งเตือนทันทีเมื่อเข้าเว็บ
+    if ("Notification" in window && Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
 
     async function sendToGemini(prompt) {
       try {
@@ -196,13 +191,20 @@
             index++;
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // สั่นแบบปานกลาง
             if ("vibrate" in navigator && index % 4 === 0) {
               navigator.vibrate([20, 10]);
             }
           } else {
             clearInterval(interval);
             saveChat(message, sender);
+
+            // แจ้งเตือนเมื่อบอทตอบ
+            if (Notification.permission === "granted") {
+              new Notification("Atommiii-AI", {
+                body: "AI ตอบกลับแล้วจ้า~",
+                icon: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png"
+              });
+            }
           }
         }, 20);
       } else {
@@ -215,7 +217,7 @@
       if (!("vibrate" in navigator)) {
         const notice = document.createElement("div");
         notice.className = "chat-bubble notice";
-        notice.textContent = "โทรศัพท์ของคุณไม่รองรับการสั่น";
+        notice.textContent = "อุปกรณ์ของคุณไม่รองรับการสั่น";
         chatBox.appendChild(notice);
         chatBox.scrollTop = chatBox.scrollHeight;
       }
