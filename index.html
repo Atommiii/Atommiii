@@ -93,7 +93,6 @@
       color: #666;
     }
 
-    /* Dark Mode */
     .dark-mode {
       background-color: #121212;
       color: #eee;
@@ -116,7 +115,6 @@
       color: white;
     }
 
-    /* Responsive */
     @media (max-width: 600px) {
       h1 {
         font-size: 1.5em;
@@ -173,9 +171,30 @@
     function appendMessage(message, sender) {
       const bubble = document.createElement("div");
       bubble.className = `chat-bubble ${sender}`;
-      bubble.innerHTML = message;
       chatBox.appendChild(bubble);
       chatBox.scrollTop = chatBox.scrollHeight;
+
+      if (sender === "ai") {
+        let index = 0;
+        const clean = message.replace(/<br>/g, "\n");
+        const interval = setInterval(() => {
+          if (index < clean.length) {
+            bubble.innerHTML = formatMarkdown(clean.substring(0, index + 1));
+            index++;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            if ("vibrate" in navigator && index % 2 === 0) {
+              navigator.vibrate(15);
+            }
+          } else {
+            clearInterval(interval);
+            saveChat(message, sender);
+          }
+        }, 20);
+      } else {
+        bubble.innerHTML = message;
+        saveChat(message, sender);
+      }
     }
 
     function toggleTheme() {
@@ -213,7 +232,6 @@
         input.value = '';
         const reply = await sendToGemini(command);
         appendMessage(reply, "ai");
-        saveChat(reply, "ai");
       }
     });
 
