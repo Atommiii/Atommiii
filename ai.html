@@ -135,6 +135,7 @@
   <div class="button-bar">
     <button onclick="toggleTheme()">เปลี่ยนธีม🌗</button>
     <button onclick="clearChat()">ล้างแชท🗑️</button>
+    <button onclick="askNotificationPermission()">อนุญาตแจ้งเตือน</button>
   </div>
 
   <div class="chat-container" id="chatBox"></div>
@@ -264,17 +265,18 @@
     });
 
     loadChat();
+ function askNotificationPermission() {
+  Notification.requestPermission().then((permission) => {
+    if (permission === "granted") {
+      new Notification("เปิดใช้งานแล้ว!", {
+        body: "HOYO-AI จะแจ้งเตือนเมื่อมีคำตอบให้นะ~",
+        icon: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png"
+      });
+    } else {
+      alert("ยังไม่ได้รับอนุญาตให้แจ้งเตือนนะจ้า~");
+    }
+  });
+ }
   </script>
 </body>
 </html>
-
-Notification.requestPermission().then((permission) => {
-  if (permission === "granted") {
-    new Notification("ทดสอบแจ้งเตือน", {
-      body: "นี่คือข้อความแจ้งเตือนจ้า~",
-      icon: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png"
-    });
-  } else {
-    alert("ยังไม่ได้อนุญาตการแจ้งเตือนนะจ๊ะ");
-  }
-});
