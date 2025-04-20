@@ -267,3 +267,13 @@
   </script>
 </body>
 </html>
+Notification.requestPermission().then((permission) => {
+  if (permission === "granted") {
+    new Notification("ทดสอบแจ้งเตือน", {
+      body: "นี่คือข้อความแจ้งเตือนจ้า~",
+      icon: "https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png"
+    });
+  } else {
+    alert("ยังไม่ได้อนุญาตการแจ้งเตือนนะจ๊ะ");
+  }
+});
