@@ -1,267 +1,242 @@
-<!DOCTYPE html><html lang="th">
+<!DOCTYPE html>
+<html lang="th">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NongAtommiii’s Blog</title>
+  <title>NongAtommiii's Blog</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     * {
       box-sizing: border-box;
-    }body {
-  margin: 0;
-  font-family: 'Noto Sans Thai', sans-serif;
-  background-color: white;
-  color: #333;
-  transition: background-color 0.3s, color 0.3s;
-}
+    }
 
-body.dark-mode {
-  background-color: #121212;
-  color: #eee;
-}
+    body {
+      margin: 0;
+      font-family: 'Noto Sans Thai', sans-serif;
+      background-color: white;
+      color: black;
+      transition: background-color 0.3s, color 0.3s;
+    }
 
-header {
-  background-color: #00bfff;
-  color: white;
-  padding: 2em 1em 3em;
-  text-align: center;
-  position: relative;
-}
+    header {
+      background-color: #00bfff;
+      color: white;
+      padding: 1em;
+      text-align: center;
+      position: relative;
+    }
 
-header h1 {
-  margin: 0;
-  font-size: 2em;
-}
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
 
-header p {
-  margin-top: 0.5em;
-  font-size: 1.2em;
-}
+    .description {
+      font-size: 1.1em;
+      margin-top: 0.5em;
+    }
 
-.toggle-darkmode {
-  position: absolute;
-  top: 1em;
-  right: 1em;
-  background: white;
-  color: #00bfff;
-  border: none;
-  border-radius: 0.5em;
-  padding: 0.3em 0.7em;
-  cursor: pointer;
-  font-size: 0.9em;
-}
+    .menu-button {
+      display: none;
+      position: absolute;
+      top: 1em;
+      left: 1em;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.5em;
+      cursor: pointer;
+    }
 
-.section {
-  padding: 2em 1em;
-}
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1em;
+      margin-top: 1em;
+      flex-wrap: wrap;
+    }
 
-.articles {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5em;
-  margin-top: 1em;
-}
+    nav a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+    }
 
-.article {
-  background-color: #f9f9f9;
-  border-radius: 0.5em;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background-color: #00bfff;
+      padding: 1em;
+      gap: 0.5em;
+    }
 
-body.dark-mode .article {
-  background-color: #1e1e1e;
-}
+    .section {
+      padding: 2em;
+    }
 
-.article img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-}
+    .blue-section {
+      background-color: #00bfff;
+      color: white;
+    }
 
-.article h3 {
-  margin: 0;
-  padding: 0.5em 1em;
-}
+    .articles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1em;
+      justify-content: center;
+    }
 
-.read-more {
-  display: flex;
-  justify-content: center;
-  margin: 2em 0;
-}
+    .article {
+      background: white;
+      color: black;
+      padding: 1em;
+      border-radius: 1em;
+      max-width: 250px;
+      text-align: center;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
 
-.read-more button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 0.8em 1.5em;
-  font-size: 1em;
-  border-radius: 0.5em;
-  cursor: pointer;
-  font-family: 'Noto Sans Thai', sans-serif;
-}
+    .article img {
+      width: 100%;
+      border-radius: 0.5em;
+    }
 
-.read-more button:hover {
-  background-color: #0056b3;
-}
+    .more-button {
+      display: inline-block;
+      margin-top: 1em;
+      padding: 0.5em 1em;
+      background-color: white;
+      color: #00bfff;
+      border: none;
+      border-radius: 1em;
+      font-family: 'Noto Sans Thai', sans-serif;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-.socials {
-  background-color: #00bfff;
-  padding: 2em 1em;
-  color: white;
-  text-align: center;
-}
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 1.5em;
+      padding: 2em 0;
+      background-color: #00bfff;
+    }
 
-.socials h2 {
-  margin-top: 0;
-}
+    .socials a {
+      color: white;
+      font-size: 1.5em;
+      text-decoration: none;
+    }
 
-.social-links {
-  margin-top: 1em;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1em;
-}
+    footer {
+      text-align: center;
+      font-size: 0.9em;
+      padding: 1em;
+      background: #f0f0f0;
+      color: #666;
+    }
 
-.social-links a {
-  color: white;
-  font-size: 1.8em;
-  text-decoration: none;
-  transition: transform 0.3s;
-}
+    /* Dark mode */
+    .dark-mode {
+      background-color: #121212;
+      color: white;
+    }
 
-.social-links a:hover {
-  transform: scale(1.2);
-}
+    .dark-mode header,
+    .dark-mode .blue-section,
+    .dark-mode .socials {
+      background-color: #1e88e5;
+    }
 
-footer {
-  text-align: center;
-  padding: 1em;
-  font-size: 0.9em;
-  background-color: #f0f0f0;
-  color: #666;
-}
+    .dark-mode .article {
+      background-color: #2a2a2a;
+      color: white;
+    }
 
-body.dark-mode footer {
-  background-color: #1e1e1e;
-  color: #aaa;
-}
+    .dark-mode .more-button {
+      background-color: #1e88e5;
+      color: white;
+    }
 
-.menu {
-  display: none;
-  justify-content: center;
-  gap: 1em;
-  margin-top: 1em;
-}
+    /* Responsive menu */
+    @media (max-width: 768px) {
+      nav.desktop {
+        display: none;
+      }
 
-.menu a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-}
+      .menu-button {
+        display: block;
+      }
 
-.mobile-menu-toggle {
-  display: none;
-  position: absolute;
-  top: 1em;
-  left: 1em;
-  font-size: 1.5em;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
+      .mobile-menu.show {
+        display: flex;
+      }
+    }
 
-.mobile-nav {
-  display: none;
-  flex-direction: column;
-  background-color: #00bfff;
-  padding: 1em;
-  text-align: center;
-}
-
-.mobile-nav a {
-  margin: 0.5em 0;
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-@media (max-width: 768px) {
-  .menu {
-    display: none;
-  }
-
-  .mobile-menu-toggle {
-    display: block;
-  }
-
-  .mobile-nav.show {
-    display: flex;
-  }
-}
-
-@media (min-width: 769px) {
-  .menu {
-    display: flex;
-  }
-}
-
+    @media (min-width: 769px) {
+      .mobile-menu {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
-    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
-    <button class="toggle-darkmode" onclick="toggleDarkMode()">โหมดมืด</button>
-    <h1>NongAtommiii’s Blog</h1>
-    <p>ยินดีต้อนรับพวกเจ้า- เอ้ย! ทุกคนเข้าสู่บล็อกส่วนตัวของอะตอมเองน๊าาา~~</p>
-    <div class="menu">
+    <button class="menu-button" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+    <h1>NongAtommiii's Blog</h1>
+    <div class="description">ยินดีต้อนรับพวกเจ้า- เอ้ย! ทุกคนเข้าสู่บล็อกส่วนตัวของอะตอมเองน๊าาา~~</div>
+
+    <nav class="desktop">
       <a href="#">บ้าน</a>
-      <a href="#">เกี่ยวกับ AI</a>
-    </div>
-    <div class="mobile-nav" id="mobileNav">
+      <a href="#">เกี่ยวกับ</a>
+      <a href="#">AI</a>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
       <a href="#">บ้าน</a>
-      <a href="#">เกี่ยวกับ AI</a>
+      <a href="#">เกี่ยวกับ</a>
+      <a href="#">AI</a>
     </div>
-  </header>  <section class="section">
+  </header>
+
+  <section class="section">
     <h2>บทความ</h2>
+    <hr>
     <div class="articles">
       <div class="article">
-        <img src="https://placehold.co/400x200/00bfff/ffffff?text=บทความ+1" alt="บทความ 1">
-        <h3>ชื่อบทความที่ 1</h3>
+        <img src="https://placehold.co/250x150" alt="บทความ 1">
+        <h3>หัวข้อบทความ 1</h3>
       </div>
       <div class="article">
-        <img src="https://placehold.co/400x200/00bfff/ffffff?text=บทความ+2" alt="บทความ 2">
-        <h3>ชื่อบทความที่ 2</h3>
+        <img src="https://placehold.co/250x150" alt="บทความ 2">
+        <h3>หัวข้อบทความ 2</h3>
       </div>
       <div class="article">
-        <img src="https://placehold.co/400x200/00bfff/ffffff?text=บทความ+3" alt="บทความ 3">
-        <h3>ชื่อบทความที่ 3</h3>
+        <img src="https://placehold.co/250x150" alt="บทความ 3">
+        <h3>หัวข้อบทความ 3</h3>
       </div>
     </div>
-  </section>  <div class="read-more">
-    <button>ดูบทความเพิ่มเติม</button>
-  </div>  <section class="socials">
-    <h2>ติดตามอะตอมได้ที่นี่~</h2>
-    <div class="social-links">
-      <a href="https://www.facebook.com/NongAtommiii.official/" target="_blank"><i class="fab fa-facebook-square"></i></a>
-      <a href="https://www.instagram.com/atom.hoyoidolofficial/" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://youtube.com/channel/UCsIsx35mlXf-PHcjvzLYi6A" target="_blank"><i class="fab fa-youtube"></i></a>
-      <a href="https://x.com/cma_atom_ttr" target="_blank"><i class="fab fa-twitter"></i></a>
-    </div>
-  </section>  <footer>
-    ลิขสิทธิ์ © 2025 NongAtommiii<br>
-    Design by NongAtommiii
-  </footer>  <script>
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
-    }
+    <button class="more-button">ดูบทความเพิ่มเติม</button>
+  </section>
 
+  <section class="socials">
+    <a href="https://www.facebook.com/NongAtommiii.official/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://www.instagram.com/atom.hoyoidolofficial/" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://youtube.com/channel/UCsIsx35mlXf-PHcjvzLYi6A?si=bs7Kn2-i_ykBvcMP" target="_blank"><i class="fab fa-youtube"></i></a>
+    <a href="https://x.com/cma_atom_ttr" target="_blank"><i class="fab fa-x-twitter"></i></a>
+  </section>
+
+  <footer>
+    ลิขสิทธิ์ &copy; 2025 NongAtommiii<br>
+    Design by NongAtommiii
+  </footer>
+
+  <script>
     function toggleMobileMenu() {
-      const nav = document.getElementById('mobileNav');
-      nav.classList.toggle('show');
+      const menu = document.getElementById("mobileMenu");
+      menu.classList.toggle("show");
     }
-  </script></body>
+  </script>
+</body>
 </html>
