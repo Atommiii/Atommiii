@@ -9,33 +9,48 @@
       background-color: white;
       color: black;
       font-family: 'Noto Sans Thai', sans-serif;
-      padding: 2em;
+      padding: 1.5em;
       transition: background-color 0.3s, color 0.3s;
     }
+
+    h1 {
+      text-align: center;
+      background-color: #a7d8ff;
+      padding: 0.5em;
+      border-radius: 10px;
+    }
+
     input, button {
       font-family: 'Noto Sans Thai', sans-serif;
       font-size: 1em;
-      padding: 0.5em;
+      padding: 0.8em;
       border: 1px solid #ccc;
       width: 100%;
       margin-top: 1em;
+      box-sizing: border-box;
     }
-    .output {
-      margin-top: 1em;
-      white-space: pre-wrap;
-    }
-    .chat-bubble {
-      padding: 0.7em 1em;
-      margin-bottom: 0.5em;
-      border-radius: 1em;
-      max-width: 80%;
-    }
-    .user { background-color: #d0e7ff; align-self: flex-end; }
-    .ai { background-color: #f0f0f0; align-self: flex-start; }
 
     .chat-container {
       display: flex;
       flex-direction: column;
+    }
+
+    .chat-bubble {
+      padding: 0.7em 1em;
+      margin-bottom: 0.5em;
+      border-radius: 1em;
+      max-width: 90%;
+      word-wrap: break-word;
+    }
+
+    .user {
+      background-color: #d0e7ff;
+      align-self: flex-end;
+    }
+
+    .ai {
+      background-color: #f0f0f0;
+      align-self: flex-start;
     }
 
     /* Dark mode */
@@ -43,57 +58,62 @@
       background-color: #121212;
       color: #eee;
     }
+
     .dark-mode input, .dark-mode button {
       background-color: #333;
       color: #fff;
     }
+
     .dark-mode .chat-bubble.user {
       background-color: #007bff;
       color: white;
     }
+
     .dark-mode .chat-bubble.ai {
       background-color: #333;
       border: 1px solid #666;
       color: white;
     }
 
-    footer {
+    /* Responsive Layout */
+    @media (min-width: 600px) {
+      body { font-size: 1.1em; padding: 2em; }
+      .chat-bubble { font-size: 1.1em; max-width: 80%; }
+      input, button { font-size: 1.1em; padding: 1em; }
+    }
+
+    @media (min-width: 1024px) {
+      body { font-size: 1.2em; max-width: 800px; margin: auto; }
+      .chat-bubble { font-size: 1.2em; max-width: 70%; }
+      input, button { font-size: 1.2em; padding: 1em; }
+    }
+
+    .footer {
       text-align: center;
-      margin-top: 2em;
       font-size: 0.8em;
+      margin-top: 2em;
       color: gray;
     }
   </style>
 </head>
 <body>
-  <h1 style="text-align: center; margin-bottom: 1em;">HOYO-AI</h1>
+  <h1>HOYO-AI</h1>
   <div style="display: flex; justify-content: space-between;">
-    <button onclick="toggleTheme()">เปลี่ยนธีม🌗</button>
-    <button onclick="clearChat()">ล้างแชท🗑️</button>
+    <button onclick="toggleTheme()">เปลี่ยนธีม 🌗</button>
+    <button onclick="clearChat()">ล้างแชท 🗑️</button>
   </div>
   <div class="chat-container" id="chatBox"></div>
   <input id="commandInput" placeholder="พิมพ์มาเลย HOYO-AI รอฟังอยู่" autofocus />
 
-  <footer>
+  <div class="footer">
     Powered by Google AI Studio<br>
-    Design By NongAtommiii
-  </footer>
+    Design by NongAtommiii
+  </div>
 
   <script>
     const input = document.getElementById('commandInput');
     const chatBox = document.getElementById('chatBox');
-    const apiKey = "AIzaSyAbRT_ckd-tVtBkji6EFULpdKKCBMnTBbo";
-
-    function markdownToHTML(text) {
-      return text
-        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\*(.+?)\*/g, "<em>$1</em>")
-        .replace(/`(.+?)`/g, "<code>$1</code>")
-        .replace(/^### (.+)$/gm, "<h3>$1</h3>")
-        .replace(/^## (.+)$/gm, "<h2>$1</h2>")
-        .replace(/^# (.+)$/gm, "<h1>$1</h1>")
-        .replace(/\n/g, "<br>");
-    }
+    const apiKey = "AIzaSyAbRT_ckd-tVtBkji6EFULpdKKCBMnTBbo"; // Gemini API Key
 
     async function sendToGemini(prompt) {
       try {
@@ -101,13 +121,9 @@
           `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
           {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              contents: [{
-                parts: [{ text: prompt }]
-              }]
+              contents: [{ parts: [{ text: prompt }] }]
             })
           }
         );
@@ -123,9 +139,17 @@
     function appendMessage(message, sender) {
       const bubble = document.createElement("div");
       bubble.className = `chat-bubble ${sender}`;
-      bubble.innerHTML = sender === "ai" ? markdownToHTML(message) : message;
+      bubble.innerHTML = renderMarkdown(message);
       chatBox.appendChild(bubble);
       chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function renderMarkdown(text) {
+      // รองรับ Markdown เบื้องต้น
+      return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')   // ตัวหนา
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')               // ตัวเอียง
+        .replace(/`(.*?)`/g, '<code>$1</code>');            // โค้ด inline
     }
 
     function toggleTheme() {
