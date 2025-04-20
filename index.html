@@ -77,6 +77,13 @@
       align-self: flex-start;
     }
 
+    .notice {
+      background-color: #ffcccc;
+      color: #a00;
+      font-weight: bold;
+      align-self: center;
+    }
+
     input {
       width: 100%;
       padding: 0.7em;
@@ -113,6 +120,11 @@
       background-color: #333;
       border: 1px solid #666;
       color: white;
+    }
+
+    .dark-mode .notice {
+      background-color: #662222;
+      color: #ffcfcf;
     }
 
     @media (max-width: 600px) {
@@ -183,8 +195,9 @@
             index++;
             chatBox.scrollTop = chatBox.scrollHeight;
 
+            // สั่นแรงเป็น pattern
             if ("vibrate" in navigator && index % 2 === 0) {
-              navigator.vibrate([10, 5, 10]);
+              navigator.vibrate([50, 30, 50]);
             }
           } else {
             clearInterval(interval);
@@ -197,6 +210,17 @@
       }
     }
 
+    // แจ้งเตือนถ้าไม่รองรับการสั่น
+    function showVibrationWarning() {
+      if (!("vibrate" in navigator)) {
+        const notice = document.createElement("div");
+        notice.className = "chat-bubble notice";
+        notice.textContent = "โทรศัพท์ของคุณไม่รองรับการสั่น";
+        chatBox.appendChild(notice);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+    }
+
     function toggleTheme() {
       document.body.classList.toggle("dark-mode");
     }
@@ -204,6 +228,7 @@
     function clearChat() {
       localStorage.removeItem("chatHistory");
       chatBox.innerHTML = '';
+      showVibrationWarning();
     }
 
     function saveChat(message, sender) {
@@ -215,6 +240,7 @@
     function loadChat() {
       const history = JSON.parse(localStorage.getItem("chatHistory")) || [];
       history.forEach(({ message, sender }) => appendMessage(message, sender));
+      showVibrationWarning();
     }
 
     function formatMarkdown(text) {
@@ -239,4 +265,3 @@
   </script>
 </body>
 </html>
-<button onclick="navigator.vibrate(300)">ทดสอบสั่น</button>
