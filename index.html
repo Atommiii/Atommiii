@@ -2,49 +2,65 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HOYO-AI</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     body {
       background-color: white;
       color: black;
       font-family: 'Noto Sans Thai', sans-serif;
-      padding: 2em;
+      padding: 1em;
+      margin: 0;
       transition: background-color 0.3s, color 0.3s;
     }
-    input, button {
-      font-family: 'Noto Sans Thai', sans-serif;
-      font-size: 1em;
-      padding: 0.5em;
-      border: 1px solid #ccc;
-      width: 100%;
-      margin-top: 1em;
-    }
-    .output {
-      margin-top: 1em;
-      white-space: pre-wrap;
-    }
-    .chat-bubble {
-      padding: 0.7em 1em;
-      margin-bottom: 0.5em;
-      border-radius: 1em;
-      max-width: 80%;
-    }
-    .user { background-color: #d0e7ff; align-self: flex-end; }
-    .ai { background-color: #f0f0f0; align-self: flex-start; }
 
     .chat-container {
       display: flex;
       flex-direction: column;
+      gap: 0.5em;
+      max-width: 800px;
+      margin: auto;
     }
 
-    .powered {
-      margin-top: 2em;
-      font-size: 0.8em;
+    .chat-bubble {
+      padding: 0.7em 1em;
+      border-radius: 1em;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    .user {
+      background-color: #d0e7ff;
+      align-self: flex-end;
+    }
+
+    .ai {
+      background-color: #f0f0f0;
+      align-self: flex-start;
+    }
+
+    input, button {
+      font-family: 'Noto Sans Thai', sans-serif;
+      font-size: 1em;
+      padding: 0.6em;
+      margin-top: 1em;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5em;
+    }
+
+    footer {
       text-align: center;
-      color: #888;
-      line-height: 1.4;
+      font-size: 0.8em;
+      color: #999;
+      margin-top: 2em;
     }
 
     /* Dark mode */
@@ -52,42 +68,43 @@
       background-color: #121212;
       color: #eee;
     }
+
     .dark-mode input, .dark-mode button {
       background-color: #333;
       color: #fff;
     }
+
     .dark-mode .chat-bubble.user {
       background-color: #007bff;
       color: white;
     }
+
     .dark-mode .chat-bubble.ai {
       background-color: #333;
       border: 1px solid #666;
       color: white;
     }
-    .dark-mode .powered {
-      color: #aaa;
-    }
   </style>
 </head>
 <body>
-  <h1 style="text-align: center; margin-bottom: 1em;">HOYO-AI</h1>
-  <div style="display: flex; justify-content: space-between;">
+  <h1 style="text-align:center;">HOYO-AI</h1>
+  <div class="toolbar">
     <button onclick="toggleTheme()">เปลี่ยนธีม🌗</button>
     <button onclick="clearChat()">ล้างแชท🗑️</button>
   </div>
+
   <div class="chat-container" id="chatBox"></div>
+
   <input id="commandInput" placeholder="พิมพ์มาเลย HOYO-AI รอฟังอยู่" autofocus />
 
-  <div class="powered">
-    Powered by Google AI Studio<br>
-    Design by NongAtommiii
-  </div>
+  <footer>
+    <p>Powered by Google AI Studio | Design by NongAtommiii</p>
+  </footer>
 
   <script>
     const input = document.getElementById('commandInput');
     const chatBox = document.getElementById('chatBox');
-    const apiKey = "AIzaSyAbRT_ckd-tVtBkji6EFULpdKKCBMnTBbo"; // ใช้กับ Gemini API
+    const apiKey = "AIzaSyAbRT_ckd-tVtBkji6EFULpdKKCBMnTBbo";
 
     async function sendToGemini(prompt) {
       try {
@@ -99,9 +116,7 @@
               "Content-Type": "application/json"
             },
             body: JSON.stringify({
-              contents: [{
-                parts: [{ text: prompt }]
-              }]
+              contents: [{ parts: [{ text: prompt }] }]
             })
           }
         );
@@ -117,7 +132,7 @@
     function appendMessage(message, sender) {
       const bubble = document.createElement("div");
       bubble.className = `chat-bubble ${sender}`;
-      bubble.innerHTML = marked.parse(message);
+      bubble.innerText = message;
       chatBox.appendChild(bubble);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
