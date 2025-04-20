@@ -1,46 +1,70 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HOYO-AI</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
+      margin: 0;
+      padding: 1em;
+      font-family: 'Noto Sans Thai', sans-serif;
       background-color: white;
       color: black;
-      font-family: 'Noto Sans Thai', sans-serif;
-      padding: 1.5em;
       transition: background-color 0.3s, color 0.3s;
     }
 
     h1 {
+      background-color: #00bfff;
+      color: white;
       text-align: center;
-      background-color: #a7d8ff;
-      padding: 0.5em;
-      border-radius: 10px;
+      padding: 1em;
+      border-radius: 0.5em;
+      margin-bottom: 1em;
     }
 
-    input, button {
+    .button-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1em;
+      flex-wrap: wrap;
+      gap: 0.5em;
+    }
+
+    button {
+      padding: 0.5em 1em;
       font-family: 'Noto Sans Thai', sans-serif;
       font-size: 1em;
-      padding: 0.8em;
-      border: 1px solid #ccc;
-      width: 100%;
-      margin-top: 1em;
-      box-sizing: border-box;
+      border: none;
+      border-radius: 0.3em;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
     }
 
     .chat-container {
       display: flex;
       flex-direction: column;
+      gap: 0.5em;
+      margin-bottom: 1em;
     }
 
     .chat-bubble {
       padding: 0.7em 1em;
-      margin-bottom: 0.5em;
       border-radius: 1em;
-      max-width: 90%;
+      max-width: 80%;
       word-wrap: break-word;
+      white-space: pre-wrap;
     }
 
     .user {
@@ -53,15 +77,32 @@
       align-self: flex-start;
     }
 
-    /* Dark mode */
+    input {
+      width: 100%;
+      padding: 0.7em;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 0.3em;
+      font-family: 'Noto Sans Thai', sans-serif;
+    }
+
+    .footer {
+      margin-top: 2em;
+      text-align: center;
+      font-size: 0.9em;
+      color: #666;
+    }
+
+    /* Dark Mode */
     .dark-mode {
       background-color: #121212;
       color: #eee;
     }
 
-    .dark-mode input, .dark-mode button {
+    .dark-mode input {
       background-color: #333;
       color: #fff;
+      border: 1px solid #555;
     }
 
     .dark-mode .chat-bubble.user {
@@ -75,35 +116,29 @@
       color: white;
     }
 
-    /* Responsive Layout */
-    @media (min-width: 600px) {
-      body { font-size: 1.1em; padding: 2em; }
-      .chat-bubble { font-size: 1.1em; max-width: 80%; }
-      input, button { font-size: 1.1em; padding: 1em; }
-    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5em;
+      }
 
-    @media (min-width: 1024px) {
-      body { font-size: 1.2em; max-width: 800px; margin: auto; }
-      .chat-bubble { font-size: 1.2em; max-width: 70%; }
-      input, button { font-size: 1.2em; padding: 1em; }
-    }
-
-    .footer {
-      text-align: center;
-      font-size: 0.8em;
-      margin-top: 2em;
-      color: gray;
+      button {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
   <h1>HOYO-AI</h1>
-  <div style="display: flex; justify-content: space-between;">
-    <button onclick="toggleTheme()">เปลี่ยนธีม 🌗</button>
-    <button onclick="clearChat()">ล้างแชท 🗑️</button>
+
+  <div class="button-bar">
+    <button onclick="toggleTheme()">เปลี่ยนธีม🌗</button>
+    <button onclick="clearChat()">ล้างแชท🗑️</button>
   </div>
+
   <div class="chat-container" id="chatBox"></div>
-  <input id="commandInput" placeholder="พิมพ์มาเลย HOYO-AI รอฟังอยู่" autofocus />
+
+  <input id="commandInput" placeholder="พิมพ์มาเลย HOYO-AI รอฟังอยู่..." autofocus />
 
   <div class="footer">
     Powered by Google AI Studio<br>
@@ -111,9 +146,9 @@
   </div>
 
   <script>
-    const input = document.getElementById('commandInput');
-    const chatBox = document.getElementById('chatBox');
-    const apiKey = "AIzaSyAbRT_ckd-tVtBkji6EFULpdKKCBMnTBbo"; // Gemini API Key
+    const input = document.getElementById("commandInput");
+    const chatBox = document.getElementById("chatBox");
+    const apiKey = "AIzaSyAbRT_ckd-tVtBkji6EFULpdKKCBMnTBbo";
 
     async function sendToGemini(prompt) {
       try {
@@ -127,11 +162,10 @@
             })
           }
         );
-
         const data = await res.json();
-        const response = data.candidates?.[0]?.content?.parts?.[0]?.text || "(ไม่มีคำตอบจาก AI)";
-        return response;
-      } catch (err) {
+        const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || "(ไม่มีคำตอบจาก AI)";
+        return formatMarkdown(raw);
+      } catch {
         return "เกิดข้อผิดพลาดในการเชื่อมต่อกับ AI";
       }
     }
@@ -139,17 +173,9 @@
     function appendMessage(message, sender) {
       const bubble = document.createElement("div");
       bubble.className = `chat-bubble ${sender}`;
-      bubble.innerHTML = renderMarkdown(message);
+      bubble.innerHTML = message;
       chatBox.appendChild(bubble);
       chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    function renderMarkdown(text) {
-      // รองรับ Markdown เบื้องต้น
-      return text
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')   // ตัวหนา
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')               // ตัวเอียง
-        .replace(/`(.*?)`/g, '<code>$1</code>');            // โค้ด inline
     }
 
     function toggleTheme() {
@@ -172,12 +198,18 @@
       history.forEach(({ message, sender }) => appendMessage(message, sender));
     }
 
-    input.addEventListener('keydown', async function (e) {
-      if (e.key === 'Enter' && input.value.trim()) {
+    function formatMarkdown(text) {
+      return text
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.*?)\*/g, "<em>$1</em>")
+        .replace(/\n/g, "<br>");
+    }
+
+    input.addEventListener("keydown", async function (e) {
+      if (e.key === "Enter" && input.value.trim()) {
         const command = input.value.trim();
         appendMessage(command, "user");
         saveChat(command, "user");
-
         input.value = '';
         const reply = await sendToGemini(command);
         appendMessage(reply, "ai");
