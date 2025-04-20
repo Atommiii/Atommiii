@@ -144,6 +144,9 @@
   <div class="button-bar">
     <button onclick="toggleTheme()">เปลี่ยนธีม🌗</button>
     <button onclick="clearChat()">ล้างแชท🗑️</button>
+    <a href="https://atommiii.github.io/Atommiii/ai.html">
+      <button>เข้าสู่หน้าหลัก AI</button>
+    </a>
   </div>
 
   <div class="chat-container" id="chatBox"></div>
@@ -195,9 +198,9 @@
             index++;
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // สั่นแรงเป็น pattern
-            if ("vibrate" in navigator && index % 2 === 0) {
-              navigator.vibrate([50, 30, 50]);
+            // สั่นแบบปานกลาง
+            if ("vibrate" in navigator && index % 4 === 0) {
+              navigator.vibrate([20, 10]);
             }
           } else {
             clearInterval(interval);
@@ -210,7 +213,6 @@
       }
     }
 
-    // แจ้งเตือนถ้าไม่รองรับการสั่น
     function showVibrationWarning() {
       if (!("vibrate" in navigator)) {
         const notice = document.createElement("div");
