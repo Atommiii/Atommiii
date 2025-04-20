@@ -184,7 +184,7 @@
             chatBox.scrollTop = chatBox.scrollHeight;
 
             if ("vibrate" in navigator && index % 2 === 0) {
-              navigator.vibrate(15);
+              navigator.vibrate([10, 5, 10]);
             }
           } else {
             clearInterval(interval);
