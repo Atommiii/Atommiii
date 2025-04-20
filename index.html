@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NongAtommiii‘s Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2DhKNJw4Q7nHyF+5Xk3KzVUnqvbqGj7X9RBuIX4cNf1Vj+TtuV0jHgS3BSKN50e4g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Noto Sans Thai', sans-serif;
+      background-color: #ffffff;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #00bfff;
+      color: white;
+      padding: 2em 1em;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+    }
+
+    header p {
+      font-size: 1.2em;
+      margin-top: 0.5em;
+    }
+
+    section {
+      padding: 2em 1em;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .divider {
+      margin: 2em 0;
+      border-top: 2px solid #ddd;
+    }
+
+    .articles {
+      display: grid;
+      gap: 1.5em;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .article {
+      border: 1px solid #ddd;
+      border-radius: 0.5em;
+      overflow: hidden;
+      background-color: #f9f9f9;
+    }
+
+    .article img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .article h3 {
+      padding: 0.8em 1em 0.2em;
+    }
+
+    .article p {
+      padding: 0 1em 1em;
+      font-size: 0.95em;
+      color: #666;
+    }
+
+    .more-btn {
+      display: block;
+      width: fit-content;
+      margin: 2em auto;
+      padding: 0.7em 1.5em;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 0.3em;
+      text-decoration: none;
+      font-size: 1em;
+    }
+
+    .more-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .socials {
+      background-color: #00bfff;
+      color: white;
+      padding: 2em 1em;
+      text-align: center;
+    }
+
+    .socials h2 {
+      margin-bottom: 1em;
+    }
+
+    .socials a {
+      display: inline-block;
+      margin: 0 10px;
+      color: white;
+      font-size: 2em;
+      transition: transform 0.3s;
+    }
+
+    .socials a:hover {
+      transform: scale(1.2);
+    }
+
+    footer {
+      background-color: #f1f1f1;
+      color: #555;
+      text-align: center;
+      padding: 1em;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>NongAtommiii‘s Blog</h1>
+    <p>ยินดีต้อนรับพวกเจ้า- เอ้ย! ทุกคนเข้าสู่บล็อกส่วนตัวของอะตอมเองน๊าาา~~</p>
+  </header>
+
+  <section>
+    <h2>บทความ</h2>
+    <div class="divider"></div>
+    <div class="articles">
+      <div class="article">
+        <img src="https://source.unsplash.com/featured/?nature" alt="Article 1" />
+        <h3>เที่ยวธรรมชาติสุดสดชื่น</h3>
+        <p>พาไปเดินป่า สูดอากาศบริสุทธิ์ให้เต็มปอด พร้อมรูปสวย ๆ จากกล้องฟิล์ม!</p>
+      </div>
+      <div class="article">
+        <img src="https://source.unsplash.com/featured/?idol" alt="Article 2" />
+        <h3>ชีวิตไอดอลในมุมมองของอะตอม</h3>
+        <p>เบื้องหลังความสดใสมีอะไรมากกว่าที่คิด ลองมาอ่านกันดู~</p>
+      </div>
+      <div class="article">
+        <img src="https://source.unsplash.com/featured/?food" alt="Article 3" />
+        <h3>ของกินสุดโปรดของอะตอม</h3>
+        <p>รวมร้านเด็ดที่อะตอมชอบไปกิน พร้อมรีวิวแบบจริงใจ</p>
+      </div>
+    </div>
+
+    <a href="#" class="more-btn">ดูบทความเพิ่มเติม</a>
+  </section>
+
+  <section class="socials">
+    <h2>ติดตามอะตอมได้ที่</h2>
+    <a href="https://www.facebook.com/NongAtommiii.official/" target="_blank"><i class="fab fa-facebook"></i></a>
+    <a href="https://www.instagram.com/atom.hoyoidolofficial/" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://youtube.com/channel/UCsIsx35mlXf-PHcjvzLYi6A?si=bs7Kn2-i_ykBvcMP" target="_blank"><i class="fab fa-youtube"></i></a>
+    <a href="https://x.com/cma_atom_ttr" target="_blank"><i class="fab fa-x-twitter"></i></a>
+  </section>
+
+  <footer>
+    ลิขสิทธิ์ © 2025 NongAtommiii<br>
+    Design by NongAtommiii
+  </footer>
+
+</body>
+</html>
